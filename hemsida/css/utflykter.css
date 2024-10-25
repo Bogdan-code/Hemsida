@@ -1,0 +1,9 @@
+.grid1{
+  display: grid;
+}
+.box1{
+  background-color: black;
+}
+.box2{
+  background-color: aqua;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cookie..</title>
+  <link rel="stylesheet" href="/css/cookie.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <header id="header"><h1>COOKIE CLICKER</h1></header>
+    <nav id="side-menu">
+      <button id="menu-button"style="text-decoration: none;" onclick="menu_drop()">☰</button>
+      <div id="menu-buttons">
+        <button>Option 1</button><button>Option 2</button><button>Option 3</button><button>Option 4</button>
+      </div>
+    </nav>
+    <main class="cookie-game">
+      <div id="shop">
+        <div id="upgrades">
+          <h2>COOKIE UPGRADES</h2>
+
+          <button id="upgrade1" onclick="upgrade_function(1)"></button>
+          <button id="upgrade2"onclick="upgrade_function(2)"></button>
+          <button id="upgrade3" onclick="upgrade_function(3)"></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+        <div id="auto-upgrades">
+          <h2>AUTO UPGRADES</h2>
+
+          <button id="auto-upgrade1" onclick="autoupgrade_function(1)"></button>
+          <button id="auto-upgrade2"onclick="autoupgrade_function(2)"></button>
+          <button id="auto-upgrade3" onclick="autoupgrade_function(3)"></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+
+
+      </div>
+      <header class="clicks"><h1 id="clicks">0 Clicks</h1></header>
+      <div id="cookie-button" onmouseup="mouseUp()" onmousedown="mouseDown()" onclick="incrementCookies()">
+        
+      </div>
+
+    </main>
+
+
+  </div>
+  <script  src="/js/cookie.js"></script>
+  <script  src="/js/auto_upgrades.js"></script>
+
+</body>
+
+</html>

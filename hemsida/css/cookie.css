@@ -1,0 +1,134 @@
+
+
+
+div.main-wrapper{
+  display: grid;
+  height: 100vh;
+  grid-template-areas: 
+  "nv hd ."
+  "cg cg cg"
+  "cg cg cg"
+  "cg cg cg"
+  ;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr repeat(3, 30%);
+}
+
+
+#header{
+  grid-area: hd;
+  text-align: center;
+  font-size: 1.5vw;
+}
+
+
+
+
+.cookie-game{
+  display: grid;
+  grid-area: cg;
+  height: 100%;
+  background-color: orange;
+  grid-template-areas: 
+  "s wl wl ."
+  "s cl cl ."
+  "s cl cl ."
+  "s cl cl ."
+  "s . . ."
+  ;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+
+}
+
+.cookie-game .clicks{height: 100%; grid-area: wl; }
+.clicks #clicks{text-align: center; font-size: 3vw;}
+
+
+.cookie-game #cookie-button{
+  grid-area: cl;
+  background-color: darkorange;
+  width: 60%;
+  height: 100%;
+  border-radius: 50%;
+  place-self: center;
+  
+
+  
+}
+
+.cookie-game #cookie-button:hover{ background-color: rgb(121, 66, 0); box-shadow: 0px 4px 16px 0px;}
+
+.cookie-game #shop{
+  grid-area: s;
+  display: grid;
+  border: solid;
+  grid-template-areas: "s a";  
+  grid-template-columns: 1fr 1fr;
+
+  padding:2%;
+  gap: 2%;
+
+  
+
+}
+
+.cookie-game #shop #upgrades{
+  grid-area: s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.cookie-game #shop #auto-upgrades{
+  grid-area: a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+
+}
+
+.cookie-game #shop button{
+  margin-bottom: 5%;
+  width: 100%;
+  height: 10%;
+  font-size: 120%;
+}
+
+#side-menu{
+  grid-area: nv;
+  padding-bottom: 1%;
+}
+
+#side-menu #menu-button{
+  font-size: 200%;
+  font-weight: bolder;
+  width: 50%;
+}
+
+#side-menu #menu-buttons{
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-evenly;
+
+
+}
+
+#menu-buttons button{
+  margin-top: 1%;
+  font-size: 120%;
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.527);
+  color: black;
+  contain: content;
+}
+#menu-buttons button:hover{background-color: rgb(92, 89, 89);}
+
+
+
+
