@@ -132,6 +132,12 @@ div.main-wrapper{
 }
 #menu-buttons button:hover{background-color: rgb(92, 89, 89);}
 
+body{
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 
 
 
