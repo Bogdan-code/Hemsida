@@ -1,20 +1,65 @@
 
-var cookies = 0;
-var auto_amount = 0;
+var gameState = {
+  cookies: 0,
+  auto_amount: 0,
+  savedSession: false,
+  upgrades: [
+    {level: 1, cost: 5, increment: 1.05}, //upgrade 1
+    {level: 1, cost: 100, increment: 1.05}, //upgrade 2
+    {level: 1, cost: 250, increment: 1.05} // ... 
+  ],
+  auto_upgrades: [
+    {level: 0, cost: 20,increment: 1.05, amount: 0.5}, // auto-upgrade 1
+    {level: 0, cost: 150,increment: 1.05, amount: 5}, // auto-upgrade 2
+    {level: 0, cost: 500,increment: 1.05, amount: 10} // ...
+  ]
+}
 
-let upgrades=[
-  {level: 1, cost: 5, increment: 1.05}, //upgrade 1
-  {level: 1, cost: 100, increment: 1.05}, //upgrade 2
-  {level: 1, cost: 250, increment: 1.05} // ... 
-];//normal upgrades
 
-let auto_upgrades=[
-  {level: 0, cost: 20,increment: 1.05, amount: 0.5}, // auto-upgrade 1
-  {level: 0, cost: 150,increment: 1.05, amount: 5}, // auto-upgrade 2
-  {level: 0, cost: 500,increment: 1.05, amount: 10} // ...
-];//auto_upgrades
 
 var click_text = document.getElementById('clicks'); //Get click text
+
+
+// Check for local storage support and load saved game if available
+if (typeof Storage !== "undefined") {
+  if (localStorage.getItem(gameState.savedSession)) {
+    load();
+  } else {
+    alert("No saved session");
+  }
+} else {
+  alert("Sorry, your browser does not support Web Storage...");
+}
+
+// Save function to store game state in local storage
+function save() {
+  localStorage.setItem(gameState.savedSession, true)
+  console.log("Saved Game!");
+  
+  localStorage.setItem("gameState", JSON.stringify(gameState));
+}
+
+
+function load(){
+  if (localStorage.getItem("gameState") !== null) {
+    try {
+      gameState = JSON.parse(localStorage.getItem("gameState"));
+    } catch (e) {
+      console.error("Error parsing gameState from localStorage:", e);
+      // Re-initialize gameState or handle error
+    }
+  }
+  cookies = gameState.cookies;
+  auto_amount = gameState.auto_amount;
+  upgrades = gameState.upgrades;
+  auto_upgrades = gameState.auto_upgrades;
+  savedSession = gameState.savedSession;
+  updatecookie();
+  updateautoamount();
+  updateUpgrade();
+}
+
+
 
 //function to open side-nav
 function menu_drop() {
@@ -29,12 +74,14 @@ function menu_drop() {
 
 //When inputted with num(upgrade number) automatically increases upgrade(num) level and increases the cost according to the increment
 function upgrade_function(num){
-  if (cookies < upgrades[num-1].cost){notEnoughMoney("upgrade", num); return};
+  var upgrade = gameState.upgrades[num-1]
+
+  if (gameState.cookies < upgrade.cost){notEnoughMoney("upgrade", num); return};
   var upgrade_button = document.getElementById('upgrade'+ num);
-  cookies -= upgrades[num-1].cost;
-  upgrades[num-1].level += 1;
-  upgrades[num-1].cost = Math.round(upgrades[num-1].cost * (upgrades[num-1].increment**upgrades[num-1].level));
-  upgrade_button.innerText = ("Upgrade:"+num +" Cost:" + upgrades[num-1].cost+ " Level:"+ upgrades[num-1].level);
+  gameState.cookies -= upgrade.cost;
+  upgrade.level += 1;
+  upgrade.cost = Math.round(upgrade.cost * (upgrade.increment**upgrade.level));
+  upgrade_button.innerText = ("Upgrade:"+num +" Cost:" + upgrade.cost+ " Level:"+ upgrade.level);
   updatecookie()
 
 }
@@ -42,11 +89,13 @@ function upgrade_function(num){
 
 //When inputted with num(upgrade number) automatically increases auto_upgrade(num) level and increases the cost according to the increment
 function autoupgrade_function(num){
-  if (cookies < auto_upgrades[num-1].cost){notEnoughMoney("auto", num); return};
+  var upgrade = gameState.auto_upgrades[num-1]
+
+  if (gameState.cookies < upgrade.cost){notEnoughMoney("auto", num); return};
   var upgrade_button = document.getElementById('upgrade'+ num);
-  cookies -= auto_upgrades[num-1].cost;
-  auto_upgrades[num-1].level += 1;
-  auto_upgrades[num-1].cost = Math.round(auto_upgrades[num-1].cost * (auto_upgrades[num-1].increment**auto_upgrades[num-1].level));
+  gameState.cookies -= upgrade.cost;
+  upgrade.level += 1;
+  upgrade.cost = Math.round(upgrade.cost * (upgrade.increment**upgrade.level));
   updatecookie()
   updateautoamount()
 
@@ -54,25 +103,27 @@ function autoupgrade_function(num){
 
 //Updates the cookie counter
 function updatecookie(){
-  click_text.textContent = cookies + ' Cookies'
+  click_text.textContent = gameState.cookies + ' Cookies'
 }
  
 //Updates the auto_upgrades and 
 function updateautoamount(){
   var sum = 0;
-  for (let i = 0; i < auto_upgrades.length; i++) {  
-    sum += auto_upgrades[i].amount * auto_upgrades[i].level;
+  for (let i = 0; i < gameState.auto_upgrades.length; i++) { 
+    var upgrade = gameState.auto_upgrades[i]
+    
+    sum += upgrade.amount * upgrade.level;
     var auto_upgrade_button = document.getElementById('auto-upgrade'+ (i+1));
-    auto_upgrade_button.textContent = "Auto Upgrade:"+(i+1) + " Cost:" + auto_upgrades[i].cost+ " Level:"+ auto_upgrades[i].level+ " c/s:"+ auto_upgrades[i].amount + " total:" + (auto_upgrades[i].level * auto_upgrades[i].amount) +"Cookies/Second";
+    auto_upgrade_button.textContent = "Auto Upgrade:"+(i+1) + " Cost:" + upgrade.cost+ " Level:"+ upgrade.level+ " c/s:"+ upgrade.amount + " total:" + (upgrade.level * upgrade.amount) +"Cookies/Second";
   }
-  auto_amount = sum;
+  gameState.auto_amount = sum;
 }
 
 //updates the upgrade buttons
 function updateUpgrade(){
-  for(let i = 0; i  != upgrades.length; i++){
+  for(let i = 0; i  != gameState.upgrades.length; i++){
   var upgrade_button = document.getElementById('upgrade'+ (i+1));
-  upgrade_button.textContent = "Upgrade:"+(i+1) +" Cost:" + upgrades[i].cost+ " Level:"+ upgrades[i].level
+  upgrade_button.textContent = "Upgrade:"+(i+1) +" Cost:" + gameState.upgrades[i].cost+ " Level:"+ gameState.upgrades[i].level
   }
 }
 
@@ -112,16 +163,21 @@ setInterval(() => {
 }, 1000);
 
 
+setInterval(() => {
+  save();
+}, 30000);
+
+
 //function used for auto_upgrades, called everysecond
 function addCookies(){
-  cookies += auto_amount;
-  updatecookie()
+  gameState.cookies += gameState.auto_amount;
+  updatecookie();
 }
 
 
 //Function where cookies are added
 function incrementCookies() {
-  cookies += (0 + (upgrades[0].level*upgrades[1].level)) * upgrades[2].level ;
+  gameState.cookies += (0 + (gameState.upgrades[0].level*gameState.upgrades[1].level)) * gameState.upgrades[2].level ;
   updatecookie()
 }
 
@@ -137,5 +193,13 @@ function mouseUp(){
   button.style.height= "100%";  
 
 }
-updateUpgrade()
-updateautoamount()
+
+
+function resetGame() {
+  localStorage.clear();
+  location.reload();
+}
+
+updateUpgrade();
+updateautoamount();
+updatecookie();

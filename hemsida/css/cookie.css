@@ -5,7 +5,7 @@ div.main-wrapper{
   display: grid;
   height: 100vh;
   grid-template-areas: 
-  "nv hd ."
+  "nv hd sv"
   "cg cg cg"
   "cg cg cg"
   "cg cg cg"
@@ -41,6 +41,22 @@ div.main-wrapper{
   grid-template-rows: repeat(5, 1fr);
 
 }
+
+#save{
+  grid-area: sv;
+  width: 50%;
+  height: 50%;
+  background-color: green;
+  border: none;   
+  border-radius: 6%;
+  position: relative;
+  top: 25%;
+  left:25%;
+  font-size: 320%;
+}
+#save:hover{
+  background-color: darkgreen;
+}       
 
 .cookie-game .clicks{height: 100%; grid-area: wl; }
 .clicks #clicks{text-align: center; font-size: 3vw;}
