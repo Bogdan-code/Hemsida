@@ -180,8 +180,41 @@ function mouseUp() {
 }
 
 // Reset game
+
+var reset = false;
+
+window.addEventListener('beforeunload', function (event) {
+  save();
+});
+
 function resetGame() {
+  // Clear local storage
   localStorage.clear();
+
+  // Reset the gameState variable to its initial state
+  gameState = {
+    cookies: 0,
+    auto_amount: 0,
+    savedSession: false,
+    upgrades: [
+      { level: 1, cost: 5, increment: 1.05 },
+      { level: 1, cost: 100, increment: 1.05 },
+      { level: 1, cost: 250, increment: 1.05 },
+    ],
+    auto_upgrades: [
+      { level: 0, cost: 20, increment: 1.05, amount: 0.5 },
+      { level: 0, cost: 150, increment: 1.05, amount: 5 },
+      { level: 0, cost: 500, increment: 1.05, amount: 10 },
+    ],
+  };
+
+  // Update the game variables to reflect the reset state
+  updateGameVariables();
+
+  // Optionally, save the new state
+  save();
+
+  // Reload the page
   location.reload();
 }
 
