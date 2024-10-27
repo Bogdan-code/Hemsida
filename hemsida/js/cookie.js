@@ -22,7 +22,7 @@ var click_text = document.getElementById('clicks'); //Get click text
 
 // Check for local storage support and load saved game if available
 if (typeof Storage !== "undefined") {
-  if (localStorage.getItem(gameState.savedSession)) {
+  if (localStorage.getItem("gameState") !== null) {
     load();
   } else {
     alert("No saved session");
@@ -33,7 +33,7 @@ if (typeof Storage !== "undefined") {
 
 // Save function to store game state in local storage
 function save() {
-  localStorage.setItem(gameState.savedSession, true)
+  gameState.savedSession = true;
   console.log("Saved Game!");
   
   localStorage.setItem("gameState", JSON.stringify(gameState));
@@ -198,6 +198,12 @@ function mouseUp(){
 function resetGame() {
   localStorage.clear();
   location.reload();
+}
+
+
+window.BeforeUnloadEvent = confirmExit;
+function confirmExit(){
+  return "Cock"
 }
 
 updateUpgrade();
