@@ -1,0 +1,35 @@
+
+
+
+body{
+  background-color: rgb(102, 47, 47);
+  height: 100vh;
+}
+
+
+.login-div{
+  height:30%;
+  background-color: blue;
+  border-radius: 10%;
+  width: 40%; 
+  position: relative;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  place-content: top;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.login-div label,.login-div input, #submit-button{
+  display: block;
+  position: relative;
+  margin-top: 3%;
+  left: 35%;
+
+
+}
+
+#submit-button{
+  width: 21%;
+}
